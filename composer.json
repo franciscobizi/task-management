@@ -1,0 +1,24 @@
+{
+    "name": "fb/task-management",
+    "description": "MVC app for management tasks",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Francisco Bizi",
+            "email": "taylorsoft28@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "firebase/php-jwt": "dev-master"
+    },
+    "autoload": {
+        "psr-4" : {
+            "FB\\" : "app/" 
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    }
+}
