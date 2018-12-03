@@ -1,0 +1,39 @@
+{
+  "name": "task-management",
+  "version": "1.0.0",
+  "description": "MVC app for management tasks",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franciscobizi/task-management.git"
+  },
+  "keywords": [
+    "tasks",
+    "management",
+    "team"
+  ],
+  "author": "Francisco Bizi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/franciscobizi/task-management/issues"
+  },
+  "homepage": "https://github.com/franciscobizi/task-management#readme",
+  "dependencies": {
+    "gulp-less": "^4.0.1",
+    "normalize.css": "^8.0.1",
+    "normalize.less": "^1.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.1"
+  }
+}
