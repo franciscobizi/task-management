@@ -2,7 +2,7 @@
 
 namespace FB\src;
 
-use FB\src\Router;
+use FB\src\Route;
 
 /**
 * App class that initialize the app 
@@ -29,7 +29,7 @@ class App
 	    $uri = $_SERVER['REQUEST_URI'];
 
 	    if (!in_array(explode('?',$uri)[0], $routes)) {
-	        Router::callController('HomeController@error404');
+	        Route::callController('HomeController@error404');
 	        exit;
 	    }
 

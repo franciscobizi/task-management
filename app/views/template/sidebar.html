@@ -1,0 +1,15 @@
+<form method="post" action="add-task" enctype="multipart/form-data" class="sidebar">
+                            <h3 class="text-center">Create new task</h3>
+                            <hr>
+                            <label>Name</label>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="John Deep">
+                            <label>Email</label>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="example@domain.com">
+                            <label>Task</label>
+                            <textarea name="task" id="task" class="form-control" rows="5"  placeholder="Type here the task"></textarea>
+                            <label>Picture</label>
+                            <input type="file" id="file" name="file" onchange="loadFile(event);" accept="jpg,png,gif">
+                            <button type="submit" class="btn-submit">Add task</button>
+                        </form>
+                        <button data-toggle="modal" data-target="#preview" class="btn-submit">Preview</button>
+                        <br>

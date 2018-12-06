@@ -1,1 +1,2 @@
-main.js
+var message = 'Working good+';
+alert(message);

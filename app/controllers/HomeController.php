@@ -16,16 +16,17 @@ use FB\models\Task;
 */
 final class HomeController extends Controller
 {
-
+	// Display all tasks
 	public function index()
 	{
-	   $tasks = Task::all('tasks','0','3');
-       View::jsonResponse(['status' => 200, 'tasks' => $tasks]);
+	   $task = (new Task())->all('0','3')->execute();
+       View::jsonResponse(['status' => 200, 'tasks' => $task]);
 	}
 
+	// Add new task
 	public function addTask()
 	{
-       if (Validator::isEmpty($this->request)) {
+        if (Validator::isEmpty($this->request)) {
             View::jsonResponse(['status' => 401, 'message' => 'There are empty fields!']);
             exit;
         }
@@ -35,8 +36,12 @@ final class HomeController extends Controller
             exit;
         }
 
-        if ($_FILES['file']['size'] != null) {
-        	$upload = new Upload($_FILES['file'], 320, 240, ROOT_PATH."/assets/img/tasks/");
+        $add = ['name' => $this->request['name'], 'email' => $this->request['email'], 'task' => $this->request['task']];
+        
+        $add  = Validator::cleanData($add);
+
+        if ($_FILES['image']['size'] != null) {
+        	$upload = new Upload($_FILES['image'], 320, 240, ROOT_PATH."/build/img/tasks/");
         	$url = $upload->save();
 
             if (!$url) {
@@ -46,17 +51,33 @@ final class HomeController extends Controller
 
             $url =  basename($url);
         	$add['image'] = $url;
-        	$add['created_at'] = date("Y-m-d h:i:s");
-        	Task::create($add);
+
+        	(new Task())->create($add)->execute();
 
        		View::jsonResponse(['status' => 200, 'message' => 'Task added successfully!']);
             exit;
         }
 	}
 
-	public function paginateTask()
-	{
-       $tasks = Task::where();
-       View::jsonResponse(['status' => 200, 'tasks' => $tasks]);
+	// Paginate tasks
+	public function paginate()
+	{	
+		$page = $this->request['page_n'];
+        $per_page = 3;
+        $offset = ($page - 1) * $per_page;
+        $total_rows = (new Task())->countRows()->execute();
+        $total_pages = ceil($total_rows / $per_page);
+        $task = (new Task())->all($offset, $per_page)->execute();
+
+        View::jsonResponse(['status' => 200, 'tasks' => $task]);
+         exit;
 	}
+
+	/*
+    *  Method to display 404 code when page not match
+    */
+    public function error404()
+    {
+        return View::render('404'); 
+    }
 }
