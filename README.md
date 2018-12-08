@@ -3,7 +3,7 @@
 
 This MVC pattern project allow visitors to create tasks and they can be managed with an administrator.
 
-![Home page]()
+![Home page](https://github.com/franciscobizi/task-management/blob/master/screenshots/1.jpg)
 
 Enjoy...
 
@@ -31,11 +31,11 @@ The App was built using above tecnologies.
 - Gulp
 
 **Screenshot**
-![Admin page]()
+![Admin page](https://github.com/franciscobizi/task-management/blob/master/screenshots/3.jpg)
 
-![Editing taks]()
-![Pagination of tasks]()
+![Editing taks](https://github.com/franciscobizi/task-management/blob/master/screenshots/4.jpg)
+![Pagination of tasks](https://github.com/franciscobizi/task-management/blob/master/screenshots/2.jpg)
 
 ### Author
-**Franciso Bizi - Full Web Developer, pationate for creating web apps**
+**Franciso Bizi - Web Developer, pationate for creating web apps and websites**
 
