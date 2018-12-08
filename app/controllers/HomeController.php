@@ -28,20 +28,22 @@ final class HomeController extends Controller
         View::render('index', $data);
 	}
 
-	// Add new task
+	
+    /*
+    *  Add new task
+    */
 	public function addTask()
-	{
-        if (Validator::isEmpty($this->request)) {
+    {
+        $add = ['name' => $_POST['name'], 'email' => $_POST['email'], 'task' => $_POST['task']];
+
+        if (Validator::isEmpty($add)) {
             View::jsonResponse(['status' => 401, 'message' => 'There are empty fields!']);
-            exit;
         }
 
-        if (!Validator::isEmail($this->request['email'])) {
+        if (!Validator::isEmail($add['email'])) {
             View::jsonResponse(['status' => 401, 'message' => 'Invalid email!']);
-            exit;
         }
 
-        $add = ['name' => $this->request['name'], 'email' => $this->request['email'], 'task' => $this->request['task']];
         
         $add  = Validator::cleanData($add);
 
@@ -51,7 +53,6 @@ final class HomeController extends Controller
 
             if (!$url) {
                 View::jsonResponse(['status' => 401, 'message' => 'Image must be one of these extensions [gif, png, jpg]!']);
-                exit;
             }
 
             $url =  basename($url);
@@ -60,11 +61,12 @@ final class HomeController extends Controller
         	(new Task())->create($add)->execute();
 
        		View::jsonResponse(['status' => 200, 'message' => 'Task added successfully!']);
-            exit;
         }
 	}
 
-	// Paginate tasks
+    /*
+    *  Paginate tasks
+    */
 	public function paginate()
 	{	
 		$page = $_POST['page_n'];

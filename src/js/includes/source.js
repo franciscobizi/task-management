@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  
+
   // Authentication
   $( "#login" ).on('click',function() {
 
@@ -55,6 +55,41 @@ $(document).ready(function() {
     });
   });
 
+  // Creating tasks
+  $( "#addingTheTask" ).on('submit',function(e) {
+        e.preventDefault();
+        /*var name = $('#name').val();
+        var email = $('#email').val();
+        var task = $('#task').val();
+        var image = new FormData(this);*/
+
+        $.ajax({
+           url: '/task-management/create',
+           type: "POST",
+           async: true,
+           dataType:'json',
+           data:  new FormData(this),
+           contentType: false,
+                 cache: false,
+           processData:false,
+           success : function(resp){
+                if (resp.status == 200) {
+                    $('.alert').addClass('alert-success');
+                    $('.alert strong').text(resp.message);
+                    $('.alert').show();
+
+                }else{
+                    $('.alert').addClass('alert-danger');
+                    $('.alert strong').text(resp.message);
+                    $('.alert').show();
+                }
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+  });
+
   // Changing task's status
   $('body').on('change','.check-status',function(){
         if(this.checked){
@@ -95,15 +130,26 @@ $(document).ready(function() {
 		
 	});
 
-	$('#preview').on('show.bs.modal', function (event) {
+  // Show the preview body
+	$('.showPreview').on('click', function (event) {
+          $('#add-body').hide();
+          $('#exampleModalCenterTitle').text('Preview the task');
+          $('#preview-body').show();
           var button = $(event.relatedTarget);
           var name   = $('#name').val();
           var email  = $('#email').val();
           var task   = $('#task').val();
-          var modal  = $(this);
-          modal.find('#name').text(name);
-          modal.find('#email').text(email);
-          modal.find('#task').text(task);
+          var modal  = $('#preview');
+          modal.find('#pname').text(name);
+          modal.find('#pemail').text(email);
+          modal.find('#ptask').text(task);
+  });
+
+  // Hidde the preview body
+  $('#backAddTask').on('click', function (event) {
+          $('#preview-body').hide();
+          $('#exampleModalCenterTitle').text('Adding new task');
+          $('#add-body').show();
   });
 
   // Display modal for editing tasks

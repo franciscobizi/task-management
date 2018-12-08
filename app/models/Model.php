@@ -23,7 +23,7 @@ class Model extends DataBase
     *  @param array $data
     *  @return array $data
     */
-    public static function create($data)
+    public function create($data)
     {
         $fields = array_keys($data);
 

@@ -20,7 +20,7 @@ class Validator
     *  @param array $data
     *  @return bool
     */
-	public static function isEmpty($data) //: bool
+	public static function isEmpty($data) : bool
 	{
 		if (in_array("", $data)) {
 			return true;
@@ -37,7 +37,7 @@ class Validator
     *  @param string $email
     *  @return bool
     */
-	public static function IsEmail($email) //: bool
+	public static function IsEmail($email) : bool
 	{
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		   return true;
@@ -54,7 +54,7 @@ class Validator
     *  @param array $data
     *  @return array $data
     */
-	public static function cleanData($data) //: array
+	public static function cleanData($data) : array
 	{
 		$newData = array_map(function($val){
 		    return trim(strip_tags($val));
