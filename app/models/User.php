@@ -12,7 +12,7 @@ use FB\models\Model;
 * @author Francisco Bizi <taylorsoft28@gmail.com> 
 * 
 */
-class User extends Model 
+final class User extends Model 
 {
 	protected static $table = 'users';
 }

@@ -12,7 +12,7 @@ use FB\models\Model;
 * @author Francisco Bizi <taylorsoft28@gmail.com> 
 * 
 */
-class Task extends Model 
+final class Task extends Model 
 {
 	protected $table = 'tasks';
 
