@@ -2,11 +2,8 @@
 
 namespace FB\controllers;
 
-use FB\src\{
-	View, 
-	Task,
-	Auth
-};
+use FB\src\{View, Auth, Validator};
+use FB\models\Task;
 
 /**
 * AdminController  
@@ -20,30 +17,101 @@ use FB\src\{
 final class AdminController extends Controller
 {
 
-	public function userAuth()
+	/**
+    *   
+    *  Method that render the admin page
+    */
+	public function index()
 	{
-       View::jsonResponse();
+		View::render('admin');
+	}
+
+	/**
+    *   
+    *  Authentication method
+    *
+    *  @return void
+    */
+	public function auth()
+	{
+		
+        $data = [ 'username' => $_POST['username'], 'password' => $_POST['password'] ];
+
+		$data  = Validator::cleanData($data);
+
+        if (Validator::isEmpty($data)) {
+            View::jsonResponse(['status' => 401, 'message'   => 'There are empty fields!']);
+        }
+
+        Auth::loginUser($data['username'], $data['password']);
+        
+		if (Auth::isLoggedIn()) {
+			View::jsonResponse(['status' => 200, 'message'   => 'authorized']);
+		}else{
+            View::jsonResponse(['status' => 401, 'message'   => 'Email or password invalid!']);
+		}
 	}
 
 	public function userAccount()
 	{
-       View::jsonResponse(['status' => 200, 'tasks' => $tasks]);
+        $per_page = 4;
+        $total_rows = (new Task())->countRows()->execute();
+        $total_pages = ceil($total_rows / $per_page);
+        $data = (new Task())->all('0','4')->execute();
+        $pages = ['total_pages' => $total_pages, 'current_page' => 1];
+        $data = [$data, $pages];
+        View::render('userprofile', $data);
 	}
 
-	public function manageTasks()
+	/**
+    *   
+    *  Method that logout
+    *
+    *  @return void
+    */
+	public function userLogOut()
 	{
-	   $action = isset($this->request['action']) ?? : null;
+		if(Auth::loggedOut()){
+			header('location: admin');
+		}
+	}
 
-       switch ($action) {
-       	case 'update':
-       		Task::update();
-       		break;
-       	case 'delete':
-       		Task::delete();
-       		break;
-       	default:
-       		# code...
-       		break;
-       }
+	/**
+    *   
+    *  Method for changing tasks status
+    *
+    *  @return void
+    */
+    public function status()
+    {
+        
+        $data = [ 'status' => $_POST['status'], 'id' => $_POST['statusid']];
+        $data  = Validator::cleanData($data);
+        (new Task())->update($data)->execute();
+        header('location: user-profile');
+
+    }
+
+
+    /**
+    *   
+    *  Method for editing tasks
+    *
+    *  @return void
+    */
+	public function editTask()
+	{
+		
+        $update = [ 'task' => $_POST['etask'], 'id' => $_POST['taskid']];
+        $update  = Validator::cleanData($update);
+
+        if (Validator::isEmpty($update)) {
+            View::jsonResponse(['status' => 401, 'message'   => 'There are empty fields!']);
+        }
+
+        (new Task())->update($update)->execute();
+
+        View::jsonResponse(['status' => 200, 'message'   => 'Task edited successful!']);    
+        
 	}
 }

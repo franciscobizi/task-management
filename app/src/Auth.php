@@ -1,7 +1,7 @@
 <?php
 
 namespace FB\src;
-use App\db\DB;
+use FB\db\DataBase;
 
 /**
  * Auth class for authentication
@@ -12,7 +12,7 @@ use App\db\DB;
  *
  * @author Francisco Bizi <taylorsoft28@gmail.com>
 */
-class Auth extends Model 
+class Auth extends DataBase 
 {
     /**
     *   
@@ -57,6 +57,10 @@ class Auth extends Model
     {
         $tok = self::generateRandom();
         $user = self::getUserData($username);
+        if (!$user) {
+            return 0;
+        }
+
         if(password_verify($password, $user[0]['password']))
         {
             setcookie("SSID", $tok, time() + 3600, BASEDIR);

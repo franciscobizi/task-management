@@ -9,14 +9,21 @@ use FB\db\DataBase;
 *
 * PHP Version 7+
 *
-* Methods : query, queryCount
+* Methods : create, find, update, delete, execute, countRows
 * @author Francisco Bizi <taylorsoft28@gmail.com> 
 * 
 */
 class Model extends DataBase
 {
+    protected $table, $result;
 
-    public static function create($data)
+    /**
+    *   
+    *  Method that create tasks
+    *  @param array $data
+    *  @return array $data
+    */
+    public function create($data)
     {
         $fields = array_keys($data);
 
@@ -32,7 +39,8 @@ class Model extends DataBase
         $col = implode($columns, ",");
         $val = implode($values, ",");
 
-        return parent::query("INSERT INTO {self::$table} ($col) VALUES ($val)", $n_data);
+        $this->result = parent::query("INSERT INTO $this->table ($col) VALUES ($val)", $n_data);
+        return $this;
     }
 
     /**
@@ -42,9 +50,21 @@ class Model extends DataBase
     *  @param string $offset
     *  @return array $data
     */
-    public static function all($table, $offset, $limit)
+    public function all($offset, $limit)
     {
-        return parent::query("SELECT * FROM $table ORDER BY id DESC LIMIT $limit OFFSET $offset");
+        $this->result = parent::query("SELECT * FROM $this->table ORDER BY id DESC LIMIT $limit OFFSET $offset");
+        return $this;
+    }
+
+    /**
+    *   
+    *  Method that return the result after execution
+    *
+    *  @return array $data 
+    */
+    public function execute()
+    {
+        return $this->result;
     }
 
     /**
@@ -54,9 +74,10 @@ class Model extends DataBase
     *  @param string $id
     *  @return array $data 
     */
-    public static function find($id)
+    public function find($id)
     {
-        return parent::query("SELECT * FROM self::$table WHERE id=:id", array(':id'=>$id));   
+        $this->result = parent::query("SELECT * FROM $this->table WHERE id=:id", array(':id'=>$id));
+        return $this;   
     }
 
     /**
@@ -65,7 +86,7 @@ class Model extends DataBase
     *  @param array $data
     *  @return int $num 
     */
-    public static function update($data)
+    public function update($data)
     {
         $fields = array_keys($data);
 
@@ -78,7 +99,8 @@ class Model extends DataBase
         }
 
         $fields = implode($fields, ',');
-        return parent::query("UPDATE self::$table SET $fields WHERE id=:id", $data);
+        $this->result = parent::query("UPDATE $this->table SET $fields WHERE id=:id", $data);
+        return $this;
     }
 
     /**
@@ -87,9 +109,10 @@ class Model extends DataBase
     *  @param array $data
     *  @return int $num 
     */
-    public static function delete($id)
+    public function delete($id)
     {
-        return parent::query("DELETE FROM self::$table WHERE id=:id", array(':id'=>$id));
+        $this->result = parent::query("DELETE FROM $this->table WHERE id=:id", array(':id'=>$id));
+        return $this;
     }
 
     /**
@@ -98,9 +121,10 @@ class Model extends DataBase
     *  
     *  @return int $num 
     */
-    public static function countRows()
+    public function countRows()
     {
-        return parent::queryCount("SELECT COUNT(id) FROM self::$table");
+        $this->result = parent::queryCount("SELECT COUNT(id) FROM $this->table");
+        return $this;
     }
 
 }

@@ -1,52 +1,58 @@
 const gulp = require('gulp');
 const cleanCSS = require('gulp-clean-css');
-const concat = require('gulp-concat');
-const less = require('gulp-less');
+const sass = require('gulp-sass');
 const path = require('path');
+const imagemin = require('gulp-imagemin');
+const pngquant = require('imagemin-pngquant');
+const uglify = require('gulp-uglify-es').default;
+const concat = require('gulp-concat');
+const browserSync = require('browser-sync');
 
-// Less task 
-gulp.task('less', function () {
-  return gulp.src('./src/less/**/*.less')
-    .pipe(less({
-      paths: [ path.join(__dirname, 'src/less', 'includes') ]
-    }))
+// Sass task 
+function sassCript() {
+  return gulp.src('./src/sass/**/*.scss')
+    .pipe(sass())
     .pipe(cleanCSS({level: 2}))
     .pipe(gulp.dest('./build/css'));
-});
-
-// Js modules
-const uglify = require('gulp-uglify');
-const pump = require('pump');
- 
-gulp.task('compress', function (cb) {
-  pump([
-        gulp.src('./src/js/**/*.js'),
-        uglify(),
-        pipe(gulp.dest('./build/js'))
-    ],
-    cb
-  );
-});
-
-
-function watch(){
-	gulp.watch('less', less);
-	gulp.watch('compress', compress);
-}
-// CSS files
-function stylesCsss() {
-  return gulp.src('./src/css/**/*.css')
-  			 .pipe(concat('all.css'))
-  			 .pipe(gulp.dest('./build/css'));
 }
 
-// JS files
-function scriptJs() {
-  return gulp.src('./src/js/**/*.js')
-  			 .pipe(gulp.dest('./build/js'));
+// Js files
+const jsFiles = [
+    './src/js/includes/jquery.js',
+    './src/js/includes/bootstrap.min.js',
+    './src/js/includes/sort.js',
+    './src/js/includes/source.js',
+    './src/js/main.js'
+];
+
+// Js task
+function jsCript() {
+  return gulp.src(jsFiles)
+    .pipe(concat('all.js'))
+    /*.pipe(uglify({
+      toplevel: true
+    }))*/
+    .pipe(gulp.dest('./build/js'));
 }
 
-gulp.task('css', stylesCsss);
-gulp.task('js', scriptJs);
+// Compress images 
+function images() {
+    return gulp.src('./src/img/*')
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngquant()]
+        }))
+        .pipe(gulp.dest('./build/img'))
+        .pipe(browserSync.stream());
+}
 
-module.exports.watch = watch;
+// Watch and server
+function serve(){
+    gulp.watch('./src/sass/**/*.scss', sassCript);
+    gulp.watch('./src/js/**/*.js', jsCript);
+    gulp.watch('./src/img/*', images);
+}
+
+
+gulp.task('default', serve);

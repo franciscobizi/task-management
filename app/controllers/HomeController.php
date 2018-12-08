@@ -10,53 +10,78 @@ use FB\models\Task;
 *
 * PHP Version 7+
 *
-* Methods : index, 
+* Methods : index, addTask 
 * @author Francisco Bizi <taylorsoft28@gmail.com> 
 * 
 */
 final class HomeController extends Controller
 {
-
+	// Display all tasks
 	public function index()
 	{
-	   $tasks = Task::all('tasks','0','3');
-       View::jsonResponse(['status' => 200, 'tasks' => $tasks]);
+	   $per_page = 4;
+        $total_rows = (new Task())->countRows()->execute();
+        $total_pages = ceil($total_rows / $per_page);
+        $data = (new Task())->all('0','4')->execute();
+        $pages = ['total_pages' => $total_pages, 'current_page' => 1];
+        $data = [$data, $pages];
+        View::render('index', $data);
 	}
 
+	
+    /*
+    *  Add new task
+    */
 	public function addTask()
-	{
-       if (Validator::isEmpty($this->request)) {
+    {
+        $add = ['name' => $_POST['name'], 'email' => $_POST['email'], 'task' => $_POST['task']];
+
+        if (Validator::isEmpty($add)) {
             View::jsonResponse(['status' => 401, 'message' => 'There are empty fields!']);
-            exit;
         }
 
-        if (!Validator::isEmail($this->request['email'])) {
+        if (!Validator::isEmail($add['email'])) {
             View::jsonResponse(['status' => 401, 'message' => 'Invalid email!']);
-            exit;
         }
 
-        if ($_FILES['file']['size'] != null) {
-        	$upload = new Upload($_FILES['file'], 320, 240, ROOT_PATH."/assets/img/tasks/");
+        
+        $add  = Validator::cleanData($add);
+
+        if ($_FILES['image']['size'] != null) {
+        	$upload = new Upload($_FILES['image'], 320, 240, ROOT_PATH."/build/img/tasks/");
         	$url = $upload->save();
 
             if (!$url) {
                 View::jsonResponse(['status' => 401, 'message' => 'Image must be one of these extensions [gif, png, jpg]!']);
-                exit;
             }
 
             $url =  basename($url);
         	$add['image'] = $url;
-        	$add['created_at'] = date("Y-m-d h:i:s");
-        	Task::create($add);
+
+        	(new Task())->create($add)->execute();
 
        		View::jsonResponse(['status' => 200, 'message' => 'Task added successfully!']);
-            exit;
         }
 	}
 
-	public function paginateTask()
-	{
-       $tasks = Task::where();
-       View::jsonResponse(['status' => 200, 'tasks' => $tasks]);
+    /*
+    *  Paginate tasks
+    */
+	public function paginate()
+	{	
+		$page = $_POST['page_n'];
+        $per_page = 4;
+        $offset = ($page - 1) * $per_page;
+        $task = (new Task())->all($offset, $per_page)->execute();
+
+        View::jsonResponse(['status' => 200, 'tasks' => $task]);
 	}
+
+	/*
+    *  Method to display 404 code when page not match
+    */
+    public function error404()
+    {
+        return View::render('404'); 
+    }
 }

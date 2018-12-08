@@ -1,0 +1,93 @@
+<footer>
+   <div class="container">
+      <div class="row">
+         <div class="col-sm-12">2018 &copy www.task-management.com. All rigth reserved.</div>
+      </div>
+   </div>
+</footer>
+<!-- Modal -->
+<div class="modal fade" id="preview" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title h4" id="exampleModalCenterTitle">Adding new task</h5>
+         </div>
+         <div class="modal-body">
+            <div id="preview-body" style="display: none;">
+               <button id="backAddTask">Back</button><br><br>
+               <div class="row">
+                  <div class="col-sm-4 h5">Photo</div>
+                  <div class="col-sm-8"><img id="imagePreview" style='width:30%;'/></div>
+               </div>
+               <hr>
+               <div class="row">
+                  <div class="col-sm-4 h5">Name</div>
+                  <div class="col-sm-8" id="pname"></div>
+               </div>
+               <hr>
+               <div class="row">
+                  <div class="col-sm-4 h5">Email</div>
+                  <div class="col-sm-8" id="pemail"></div>
+               </div>
+               <hr>
+               <div class="row">
+                  <div class="col-sm-4 h5">Task</div>
+                  <div class="col-sm-8" id="ptask"></div>
+               </div>
+            </div>
+            <div id="add-body">
+               <form id="addingTheTask" enctype="multipart/form-data" class="sidebar">
+                  <label>Name</label>
+                  <input type="text" name="name" id="name" class="form-control" placeholder="John Deep">
+                  <label>Email</label>
+                  <input type="email" name="email" id="email" class="form-control" placeholder="example@domain.com">
+                  <label>Task</label>
+                  <textarea name="task" id="task" class="form-control" rows="5"  placeholder="Type here the task"></textarea>
+                  <label>Picture</label>
+                  <input type="file" id="file" name="image" onchange="loadFile(event);" accept="jpg,png,gif">
+                  <button class="btn-submit">Add task</button>
+               </form>
+               <div class="alert alert-dismissible fade show" role="alert">
+                     <strong>Message</strong>
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                     </button>
+               </div>
+               <button class="btn-submit showPreview">Preview</button>
+               <br>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="modal fade" id="ediTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+   <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title h4" id="exampleModalCenterTitle">Edit the task</h5>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-sm-12">
+                  <form >
+                     <input type="hidden" name="taskid" id="taskid">
+                     <label>Task description:</label>
+                     <textarea name="task" id="etask" class="form-control" rows="5"  placeholder="Type here the task"></textarea>
+                  </form>
+                  <button id="ediTheTask" class="btn-submit">Edit</button>
+                  <br><br>
+                  <div class="alert alert-dismissible fade show" role="alert">
+                        <strong>Message</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<script src="build/js/all.js"></script>
+</body>
+</html>

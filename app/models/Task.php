@@ -14,5 +14,10 @@ use FB\models\Model;
 */
 class Task extends Model 
 {
-	// Code goes here
+	protected $table = 'tasks';
+
+	public function __construct()
+	{
+		$this->table;
+	}
 }
