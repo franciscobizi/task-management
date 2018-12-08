@@ -52,6 +52,12 @@ final class AdminController extends Controller
 		}
 	}
 
+    /**
+    *   
+    *  Method that display user account
+    *
+    *  @return array $data
+    */
 	public function userAccount()
 	{
         $per_page = 4;
@@ -69,7 +75,7 @@ final class AdminController extends Controller
     *
     *  @return void
     */
-	public function userLogOut()
+	public function userLogOut() : void
 	{
 		if(Auth::loggedOut()){
 			header('location: admin');
@@ -82,9 +88,14 @@ final class AdminController extends Controller
     *
     *  @return void
     */
-    public function status()
+    public function status() : void
     {
+        $jwt = Auth::isValidToken($_COOKIE['SSID']);
         
+        if (!$jwt) {
+            View::jsonResponse(['status' => 401, 'message'   => 'Access denied for you!']);
+        }
+
         $data = [ 'status' => $_POST['status'], 'id' => $_POST['statusid']];
         $data  = Validator::cleanData($data);
         (new Task())->update($data)->execute();
@@ -101,7 +112,12 @@ final class AdminController extends Controller
     */
 	public function editTask()
 	{
-		
+		$jwt = Auth::isValidToken($_COOKIE['SSID']);
+        
+        if (!$jwt) {
+            View::jsonResponse(['status' => 401, 'message'   => 'Access denied for you!']);
+        }
+
         $update = [ 'task' => $_POST['etask'], 'id' => $_POST['taskid']];
         $update  = Validator::cleanData($update);
 

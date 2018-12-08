@@ -16,7 +16,9 @@ use FB\models\Task;
 */
 final class HomeController extends Controller
 {
-	// Display all tasks
+	/**
+    * Display all tasks on home page
+    */
 	public function index()
 	{
 	   $per_page = 4;

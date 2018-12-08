@@ -7,11 +7,11 @@ namespace FB\src;
 *
 * PHP Version 7+
 *
-* Methods : isRouteValid, registerRoute, get, post, callController
+* Methods : isRouteValid, registeTheRoute, get, post, callController
 * @author Francisco Bizi <taylorsoft28@gmail.com> 
 * 
 */
-class Route 
+final class Route 
 {
 
     /**
@@ -37,7 +37,7 @@ class Route
     * @param string $route
     * @return void
     */
-    private static function registerRoute($route) 
+    private static function registeTheRoute($route) 
     {
         global $routes;
         $routes[] = BASEDIR.$route;
@@ -56,7 +56,7 @@ class Route
     {   
         
         if ($_SERVER['REQUEST_URI'] == BASEDIR.$route) {
-            self::registerRoute($route);
+            self::registeTheRoute($route);
             self::callController($controller);
         }
     }

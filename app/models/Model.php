@@ -56,16 +56,6 @@ class Model extends DataBase
         return $this;
     }
 
-    /**
-    *   
-    *  Method that return the result after execution
-    *
-    *  @return array $data 
-    */
-    public function execute()
-    {
-        return $this->result;
-    }
 
     /**
     *   
@@ -125,6 +115,17 @@ class Model extends DataBase
     {
         $this->result = parent::queryCount("SELECT COUNT(id) FROM $this->table");
         return $this;
+    }
+    
+    /**
+    *   
+    *  Method that return the result after execution
+    *
+    *  @return array $data 
+    */
+    final public function execute()
+    {
+        return $this->result;
     }
 
 }
