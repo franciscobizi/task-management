@@ -86,7 +86,7 @@ class Model extends DataBase
     *  @param array $data
     *  @return int $num 
     */
-    public static function update($data)
+    public function update($data)
     {
         $fields = array_keys($data);
 
@@ -109,7 +109,7 @@ class Model extends DataBase
     *  @param array $data
     *  @return int $num 
     */
-    public static function delete($id)
+    public function delete($id)
     {
         $this->result = parent::query("DELETE FROM $this->table WHERE id=:id", array(':id'=>$id));
         return $this;
@@ -121,7 +121,7 @@ class Model extends DataBase
     *  
     *  @return int $num 
     */
-    public static function countRows()
+    public function countRows()
     {
         $this->result = parent::queryCount("SELECT COUNT(id) FROM $this->table");
         return $this;

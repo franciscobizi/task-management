@@ -19,8 +19,13 @@ final class HomeController extends Controller
 	// Display all tasks
 	public function index()
 	{
-	   $data = (new Task())->all('0','4')->execute();
-	   View::render('index', $data);
+	   $per_page = 4;
+        $total_rows = (new Task())->countRows()->execute();
+        $total_pages = ceil($total_rows / $per_page);
+        $data = (new Task())->all('0','4')->execute();
+        $pages = ['total_pages' => $total_pages, 'current_page' => 1];
+        $data = [$data, $pages];
+        View::render('index', $data);
 	}
 
 	// Add new task
@@ -62,15 +67,12 @@ final class HomeController extends Controller
 	// Paginate tasks
 	public function paginate()
 	{	
-		$page = $this->request['page_n'];
-        $per_page = 3;
+		$page = $_POST['page_n'];
+        $per_page = 4;
         $offset = ($page - 1) * $per_page;
-        $total_rows = (new Task())->countRows()->execute();
-        $total_pages = ceil($total_rows / $per_page);
         $task = (new Task())->all($offset, $per_page)->execute();
 
         View::jsonResponse(['status' => 200, 'tasks' => $task]);
-         exit;
 	}
 
 	/*

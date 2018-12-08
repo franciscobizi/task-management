@@ -1,5 +1,5 @@
 <?php
-    use App\classes\Auth;
+    use FB\src\Auth;
     
     if (!Auth::isLoggedIn()) {
         header('location: admin');
@@ -15,19 +15,7 @@
                     <div class="col-sm-3">
                         <?php include('template/sidebar-admin.html'); ?>
                     </div>
-                    <div class="col-sm-9" style="background: white;">
-                        <?php
-                            if(isset($data[1]['message'])):
-                        ?>
-                            <div class="alert alert-<?php echo $data[1]['color']?> alert-dismissible fade show" role="alert" style="margin-top: 3%;">
-                                <strong><?php echo $data[1]['message']; ?></strong>
-                                <button type="button" class="close" data-id="<?php if(isset($data[1]['idModal'])) echo $data[1]['idModal'];?>" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        <?php
-                            endif;
-                        ?>
+                    <div class="col-sm-9">
                         <table class="table" id="sortTable">
                             <thead class="thead-light">
                                 <tr>
@@ -38,12 +26,12 @@
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="container-table">
+                            <tbody id="container-table-a">
                                 <?php
                                     foreach($data[0] as $task){
                                         echo "
                                             <tr>
-                                                <td><img src='assets/img/tasks/".$task['image']."' style='width: 100px;'/></td><td>".$task['name']."</td><td class='text-justify'>".$task['email']."</td><td class='text-justify'>".$task['task']."</td><td><span data-toggle='modal' data-target='#ediTask' data-task='".$task['task']."' data-id='".$task['id']."'><i class='fa fa-edit' style='font-size: 1.5em;'></i></span>
+                                                <td><img src='build/img/tasks/".$task['image']."' style='width: 100px;'/></td><td>".$task['name']."</td><td class='text-justify'>".$task['email']."</td><td class='text-justify'>".$task['task']."</td><td><span data-toggle='modal' data-target='#ediTask' data-task='".$task['task']."' data-id='".$task['id']."'><i class='fa fa-edit' style='font-size: 1.5em;'></i></span>
                                                             <span class='checkbox'>
                                                               <label>
                                                                 <input type='checkbox' class='check-status' data-id='".$task['id']."' ".$task['status'].">
@@ -66,14 +54,10 @@
                         ?>
                         <nav aria-label="Page navigation">
                             <ul class="pagination">
-                                <li class="page-item"><a class="page-link paginate" data-page="previous" title="Previous page"><i class="fa fa-backward activelink" aria-hidden="true"></i></a></li>
+                                <li class="page-item"><a class="page-link paginate" data-admin="admin" data-page="previous" title="Previous page"><i class="fa fa-backward activelink" aria-hidden="true"></i></a></li>
                                 <li class="page-item"><a class="page-link">In <span id="curentPage"><?php echo $data[1]['current_page'];?></span> of <span id="totalPage"><?php echo $data[1]['total_pages'];?></span> pages</a></li>
-                                <li class="page-item"><a class="page-link paginate" data-page="next" title="Next page"><i class="fa fa-forward activelink" aria-hidden="true"></i></a></li>
+                                <li class="page-item"><a class="page-link paginate" data-admin="admin" data-page="next" title="Next page"><i class="fa fa-forward activelink" aria-hidden="true"></i></a></li>
                             </ul>
-                            <form id="form-pagination" action="page" method="post">
-                                <input type="hidden" name="page_n" id="page_n">
-                                <input type="hidden" name="admin_n">
-                            </form>
                         </nav>
                         <?php 
                             endif;

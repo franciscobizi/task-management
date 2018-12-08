@@ -15,6 +15,6 @@ Route::post('paginate', 'HomeController@paginate');
 Route::post('admin', 'AdminController@index');
 Route::post('authentication', 'AdminController@auth');
 Route::post('status', 'AdminController@status');
-Route::post('editTask', 'AdminController@editTask');
-Route::post('user-profile', 'AdminController@userProfile');
+Route::post('edit-task', 'AdminController@editTask');
+Route::post('user-profile', 'AdminController@userAccount');
 Route::post('logout', 'AdminController@userLogOut');
