@@ -1,2 +1,1 @@
-var message = 'Working good+';
-alert(message);
+//silence is gold

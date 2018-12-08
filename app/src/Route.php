@@ -7,7 +7,7 @@ namespace FB\src;
 *
 * PHP Version 7+
 *
-* Methods : isRouteValid, registerRoute, dyn, post, callController
+* Methods : isRouteValid, registerRoute, get, post, callController
 * @author Francisco Bizi <taylorsoft28@gmail.com> 
 * 
 */
@@ -21,14 +21,14 @@ class Route
     */
     public static function isRouteValid() : bool
     {
-      global $routes;
-      $uri = $_SERVER['REQUEST_URI'];
+        global $routes;
+        $uri = $_SERVER['REQUEST_URI'];
 
-      if (!in_array(explode('?',$uri)[0], $routes)) {
-        return 0;
-      } else {
-        return 1;
-      }
+        if (!in_array(explode('?',$uri)[0], $routes)) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     /**
@@ -39,9 +39,8 @@ class Route
     */
     private static function registerRoute($route) 
     {
-
-      global $routes;
-      $routes[] = BASEDIR.$route;
+        global $routes;
+        $routes[] = BASEDIR.$route;
 
     }
    
@@ -63,23 +62,7 @@ class Route
     }
 
     /**
-    * This method registe the route HTTP get method and call controller
-    *
-    * @param  string $route
-    * @param  string $controller
-    * @return object
-    */ 
-    public static function get($route, $controller) 
-    {   
-        
-        if (explode('?', $_SERVER['REQUEST_URI'])[0] == BASEDIR.$route) {
-            self::registerRoute($route);
-            self::callController($controller);
-        } 
-    }
-
-    /**
-    * This method get the controller name
+    * This method get the controller's and method's name
     *
     * @param  string $controller
     * @return object

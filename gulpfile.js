@@ -6,13 +6,12 @@ const imagemin = require('gulp-imagemin');
 const pngquant = require('imagemin-pngquant');
 const uglify = require('gulp-uglify-es').default;
 const concat = require('gulp-concat');
+const browserSync = require('browser-sync');
 
 // Sass task 
 function sassCript() {
   return gulp.src('./src/sass/**/*.scss')
-    .pipe(sass({
-      paths: [ path.join(__dirname, 'src/sass', 'includes') ]
-    }))
+    .pipe(sass())
     .pipe(cleanCSS({level: 2}))
     .pipe(gulp.dest('./build/css'));
 }
@@ -20,6 +19,7 @@ function sassCript() {
 // Js files
 const jsFiles = [
     './src/js/includes/jquery.js',
+    './src/js/includes/bootstrap.min.js',
     './src/js/includes/sort.js',
     './src/js/includes/source.js',
     './src/js/main.js'

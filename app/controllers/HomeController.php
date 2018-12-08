@@ -10,7 +10,7 @@ use FB\models\Task;
 *
 * PHP Version 7+
 *
-* Methods : index, 
+* Methods : index, addTask 
 * @author Francisco Bizi <taylorsoft28@gmail.com> 
 * 
 */
@@ -19,8 +19,9 @@ final class HomeController extends Controller
 	// Display all tasks
 	public function index()
 	{
-	   $task = (new Task())->all('0','3')->execute();
-       View::jsonResponse(['status' => 200, 'tasks' => $task]);
+	   $data = (new Task())->all('0','4')->execute();
+	   View::render('index', $data);
+       //View::jsonResponse(['status' => 200, 'tasks' => $tasks]);
 	}
 
 	// Add new task
