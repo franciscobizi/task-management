@@ -18,7 +18,7 @@ class View
     *  @param array $data data to be rendered
     *  @throw \ErrorException
     */
-    public static function render($path, $data = [])
+    public static function render($path, array $data = null)
     {
         $thePath = ROOT_PATH . '/app/views/'.$path.'.html';
         
@@ -33,7 +33,7 @@ class View
     *  @param array $data data to be rendered
     *  @return array $json
     */
-    public static function jsonResponse($data = [])
+    public static function jsonResponse(array $data = null)
     {
         echo json_encode($data);
         exit;

@@ -21,7 +21,6 @@ final class HomeController extends Controller
 	{
 	   $data = (new Task())->all('0','4')->execute();
 	   View::render('index', $data);
-       //View::jsonResponse(['status' => 200, 'tasks' => $tasks]);
 	}
 
 	// Add new task

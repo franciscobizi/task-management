@@ -29,9 +29,9 @@ const jsFiles = [
 function jsCript() {
   return gulp.src(jsFiles)
     .pipe(concat('all.js'))
-    .pipe(uglify({
+    /*.pipe(uglify({
       toplevel: true
-    }))
+    }))*/
     .pipe(gulp.dest('./build/js'));
 }
 

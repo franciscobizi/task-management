@@ -1,4 +1,28 @@
 $(document).ready(function() {
+  $( "#login" ).on('click',function() {
+
+    var username = $('#username').val(); 
+    var password = $('#password').val();
+
+    $.ajax({
+        method : 'POST',
+           url : '/task-management/authentication',
+      dataType : 'json',
+          data : {username : username, password : password},
+      success : function(resp){
+          if (resp.status == 200) {
+              window.location.href = '/task-management/user-profile'; 
+          }else{
+              $('.alert STRONG').text(resp.message);
+              $('.alert').show();
+          }
+      },
+      error : function(resp){
+         console.log(resp);
+      }
+
+    });
+  });
 
 	var $checked = $('.check-status');
     $checked.change(function(){
@@ -54,17 +78,13 @@ $(document).ready(function() {
           var task   = button.data('task');
           var id     = button.data('id');
           var modal  = $(this);
-          modal.find('#task').val(task);
+          modal.find('#etask').val(task);
           modal.find('#taskid').val(id);
     });
 
 	$('.close').click(function(){
-		$id = $(this).data('id');
-		if ($id == 'closeAdmin') {
-			window.location.href = 'user-profile';
-		}else{
-			window.location.href = '/';
-		}
+		 $('.alert').hide();
+     window.location.reload();
 	});
 
     
